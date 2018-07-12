@@ -1,10 +1,10 @@
 const fetchApi = require("./api");
 
-const fn = (n) => new Promise(async (resolve) => {
-  const arrayOfObjects = Array(n).fill({}).map(() => ({}));
+const fn = (n) => new Promise((resolve) => {
+  const arrayOfObjects = Array(n).fill({});
   const arrayOfPromises = [];
 
-  for (let i = 0; i < arrayOfObjects.length; i++) {
+  for (var i = 0; i < arrayOfObjects.length; i++) {
     arrayOfPromises.push(
       fetchApi("https://api.com/")
         .then(function({ id }) {
@@ -15,8 +15,7 @@ const fn = (n) => new Promise(async (resolve) => {
     );
   }
 
-  await Promise.all(arrayOfPromises);
-  resolve(arrayOfObjects);
+  resolve(arrayOfPromises);
 });
 
 module.exports = fn;
