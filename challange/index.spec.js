@@ -2,28 +2,22 @@ const {expect} = require("chai");
 
 const fn = require("./index.js");
 
-it("returned array should not contain Promises", async () => { 
-  const val = await fn();
-  
-  val.forEach(v => {
-    expect(v instanceof Promise).to.be.false;
-  });
+it("returned array should have same length as input if all parameters are valid", () => {
+  const params = ["Thu, 02 Jan 1970 00:00:00 GMT-0400", "Wed, 01 Jan 1970 00:00:00 GMT-0400", "Thu Jan 01 1970 01:00:00 GMT+0100"]
+  const val = fn(params);
+
+  expect(val).to.have.lengthOf(params.length);
 });
 
-it("every object should have an id", async () => { 
-  const val = await fn();
+it("returned array should not contain Invalid Dates", () => { 
+  const params = ["Thu, 02 Jan 1970 00:00:00 GMT-0400", "Wed, 01 Jan 1970 00:00:00 GMT-0400", "Thu Jan 01 1970 01:00:00 GMT+0100", "WarsawJS"]
+  const val = fn(params);
 
-  val.forEach(v => {
-    expect(v).to.have.key("id");
-  });
+  expect(val).to.have.lengthOf(params.length - 1);
 });
 
-it("every object should have an unique id", async () => { 
-  const val = await fn();
-  
-  const usedIds = [];
-  val.forEach(v => {
-    expect(usedIds).not.to.include(v.id);
-    usedIds.push(v.id);
-  });
+it("returned array should be sorted properly", () => {
+  const val = fn(["Thu, 01 Jan 1970 00:00:00 GMT-0400", "Wed, 02 Jan 1970 00:00:00 GMT-0400"]);
+
+  expect(JSON.stringify(val)).to.be.equal('["1970-01-01T04:00:00.000Z","1970-01-02T04:00:00.000Z"]');
 });

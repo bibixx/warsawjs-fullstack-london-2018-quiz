@@ -1,21 +1,19 @@
-const fetchApi = require("./api");
+const fn = (array) => {
+  const millisecondsArray = array.map(el => Date.parse(el));
 
-const fn = () => new Promise(async (resolve) => {
-  const arrayOfObjects = Array(15).fill({});
-  const arrayOfPromises = [];
+  const filteredArray = millisecondsArray.filter(el => {
+    if (el == NaN) {
+      return false;
+    }
+    
+    return true;
+  })
 
-  for (var i = 0; i < arrayOfObjects.length; i++) {
-    arrayOfPromises.push(
-      fetchApi("https://api.com/")
-        .then(function({ id }) {
-          if (arrayOfObjects[i]) {
-            arrayOfObjects[i].id = id;
-          }
-        })
-    );
-  }
+  const datesArray = filteredArray
+    .sort()
+    .map(el => new Date(el));
 
-  resolve(arrayOfPromises);
-});
+  return datesArray;
+}
 
 module.exports = fn;
