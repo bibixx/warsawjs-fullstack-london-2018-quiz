@@ -1,7 +1,7 @@
 const fetchApi = require("./api");
 
 const fn = (n) => new Promise(async (resolve) => {
-  const arrayOfObjects = Array(n).fill({}).map(() => ({}));
+  const arrayOfObjects = Array(n).fill({});
   const arrayOfPromises = [];
 
   for (let i = 0; i < arrayOfObjects.length; i++) {
